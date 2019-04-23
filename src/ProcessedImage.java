@@ -8,13 +8,15 @@ public class ProcessedImage {
     private int arraySize;
     private long processingTime;
     private int threshold;
+    private int blurWidth;
 
-    public ProcessedImage(BufferedImage image, int width, int height, int arraySize, int threshold, long processingTime) {
+    public ProcessedImage(BufferedImage image, int width, int height, int arraySize, int threshold, int blurWidth, long processingTime) {
         this.image = image;
         this.width = width;
         this.height = height;
         this.arraySize = arraySize;
         this.threshold = threshold;
+        this.blurWidth = blurWidth;
         this.processingTime = processingTime;
     }
 
@@ -40,6 +42,10 @@ public class ProcessedImage {
 
     public int getThreshold() {
         return threshold;
+    }
+
+    public int getBlurWidth() {
+        return blurWidth;
     }
 
     public String getInfo() {

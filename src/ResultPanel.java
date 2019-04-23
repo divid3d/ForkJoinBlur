@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 
 public class ResultPanel extends JPanel {
 
-    public ResultPanel(BufferedImage source, BufferedImage processed, int height, int width, int threshold, int arraySize, long processingTime) {
+    public ResultPanel(BufferedImage source, BufferedImage processed, int height, int width, int threshold, int arraySize, int blurWidth, long processingTime) {
 
         this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
@@ -41,7 +41,11 @@ public class ResultPanel extends JPanel {
 
         gbc.gridx = 0;
         gbc.gridy = 5;
+        this.add(new JLabel("Blur width: " + blurWidth + " px"), gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 6;
         this.add(new JLabel("Processing time: " + processingTime + " ms"), gbc);
-        
+
     }
 }

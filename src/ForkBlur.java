@@ -9,17 +9,18 @@ public class ForkBlur extends RecursiveAction {
     private int mLength;
     private int mThreshold;
     private int[] mDestination;
-    private int mBlurWidth = 201;
+    private int mBlurWidth;
 
-    public ForkBlur(int[] src, int start, int length, int[] dst, int threshold) {
+    private ForkBlur(int[] src, int start, int length, int[] dst, int threshold, int blurWidth) {
         mSource = src;
         mStart = start;
         mLength = length;
         mDestination = dst;
         mThreshold = threshold;
+        mBlurWidth = blurWidth;
     }
 
-    protected void computeDirectly() {
+    protected  void computeDirectly() {
         int sidePixels = (mBlurWidth - 1) / 2;
         for (int index = mStart; index < mStart + mLength; index++) {
             // Calculate average.
@@ -29,13 +30,13 @@ public class ForkBlur extends RecursiveAction {
                 int pixel = mSource[mindex];
                 rt += (float) ((pixel & 0x00ff0000) >> 16) / mBlurWidth;
                 gt += (float) ((pixel & 0x0000ff00) >> 8) / mBlurWidth;
-                bt += (float) ((pixel & 0x000000ff) >> 0) / mBlurWidth;
+                bt += (float) ((pixel & 0x000000ff)) / mBlurWidth;
             }
 
             int dpixel = (0xff000000)
                     | (((int) rt) << 16)
                     | (((int) gt) << 8)
-                    | (((int) bt) << 0);
+                    | (((int) bt));
             mDestination[index] = dpixel;
         }
     }
@@ -50,20 +51,20 @@ public class ForkBlur extends RecursiveAction {
 
         int split = mLength / 2;
 
-        invokeAll(new ForkBlur(mSource, mStart, split, mDestination, mThreshold),
+        invokeAll(new ForkBlur(mSource, mStart, split, mDestination, mThreshold,mBlurWidth),
                 new ForkBlur(mSource, mStart + split, mLength - split,
-                        mDestination, mThreshold));
+                        mDestination, mThreshold,mBlurWidth));
     }
 
 
-    public static ProcessedImage blurParallel(BufferedImage srcImage, int sThreshold) {
+    public static ProcessedImage blurParallel(BufferedImage srcImage, int sThreshold, int sBlurWidth) {
         int w = srcImage.getWidth();
         int h = srcImage.getHeight();
 
         int[] src = srcImage.getRGB(0, 0, w, h, null, 0, w);
         int[] dst = new int[src.length];
 
-        ForkBlur fb = new ForkBlur(src, 0, src.length, dst, sThreshold);
+        ForkBlur fb = new ForkBlur(src, 0, src.length, dst, sThreshold,sBlurWidth);
 
         ForkJoinPool pool = new ForkJoinPool();
 
@@ -76,10 +77,10 @@ public class ForkBlur extends RecursiveAction {
         BufferedImage dstImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
         dstImage.setRGB(0, 0, w, h, dst, 0, w);
 
-        return new ProcessedImage(dstImage, w, h, src.length, sThreshold, endTime - startTime);
+        return new ProcessedImage(dstImage, w, h, src.length, sThreshold,sBlurWidth, endTime - startTime);
     }
 
-    public static void blurSingle(BufferedImage srcImage) {
-        blurParallel(srcImage, srcImage.getWidth() * srcImage.getHeight());
+    public static void blurSingle(BufferedImage srcImage,int blurWidth) {
+        blurParallel(srcImage, srcImage.getWidth() * srcImage.getHeight(),blurWidth);
     }
 }
