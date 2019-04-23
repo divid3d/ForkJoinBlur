@@ -15,11 +15,11 @@ public class ImagesFrame extends JFrame {
         BufferedImage source = getImageFromUrl(url);
 
         if (source != null) {
-            ProcessedImage processed = ForkBlur.blur(source, threshold);
+            ProcessedImage processed = ForkBlur.blurParallel(source, threshold);
             BufferedImage resizedSource = resize(source, 400, 800);
             BufferedImage resizedProcesed = resize(processed.getImage(), 400, 800);
             System.out.println(processed.getInfo());
-            add(new ResultPanel(resizedSource, resizedProcesed));
+            add(new ResultPanel(resizedSource, resizedProcesed, processed.getHeight(), processed.getWidth(), processed.getArraySize(), processed.getThreshold(), processed.getProcessingTime()));
         } else {
             JOptionPane.showMessageDialog(this, "Nie można pobrać obrazu", "Błąd", JOptionPane.ERROR_MESSAGE);
             this.dispose();
@@ -37,16 +37,17 @@ public class ImagesFrame extends JFrame {
         BufferedImage source = getImageFromUri(path);
 
         if (source != null) {
-            ProcessedImage processed = ForkBlur.blur(source, threshold);
-            BufferedImage resizedSource = resize(source  , 400, 800);
+            ProcessedImage processed = ForkBlur.blurParallel(source, threshold);
+            BufferedImage resizedSource = resize(source, 400, 800);
             BufferedImage resizedProcessed = resize(processed.getImage(), 400, 800);
             System.out.println(processed.getInfo());
-            add(new ResultPanel(resizedSource, resizedProcessed));
+            add(new ResultPanel(resizedSource, resizedProcessed, processed.getHeight(), processed.getWidth(), processed.getArraySize(), processed.getThreshold(), processed.getProcessingTime()));
         } else {
             JOptionPane.showMessageDialog(this, "Nie można wczytać obrazu", "Błąd", JOptionPane.ERROR_MESSAGE);
+            this.dispose();
         }
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         pack();
         setVisible(true);
 

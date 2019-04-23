@@ -9,7 +9,7 @@ public class ForkBlur extends RecursiveAction {
     private int mLength;
     private int mThreshold;
     private int[] mDestination;
-    private int mBlurWidth = 101;
+    private int mBlurWidth = 201;
 
     public ForkBlur(int[] src, int start, int length, int[] dst, int threshold) {
         mSource = src;
@@ -56,7 +56,7 @@ public class ForkBlur extends RecursiveAction {
     }
 
 
-    public static ProcessedImage blur(BufferedImage srcImage, int sThreshold) {
+    public static ProcessedImage blurParallel(BufferedImage srcImage, int sThreshold) {
         int w = srcImage.getWidth();
         int h = srcImage.getHeight();
 
@@ -67,13 +67,19 @@ public class ForkBlur extends RecursiveAction {
 
         ForkJoinPool pool = new ForkJoinPool();
 
+
         long startTime = System.currentTimeMillis();
         pool.invoke(fb);
         long endTime = System.currentTimeMillis();
+
 
         BufferedImage dstImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
         dstImage.setRGB(0, 0, w, h, dst, 0, w);
 
         return new ProcessedImage(dstImage, w, h, src.length, sThreshold, endTime - startTime);
+    }
+
+    public static void blurSingle(BufferedImage srcImage) {
+        blurParallel(srcImage, srcImage.getWidth() * srcImage.getHeight());
     }
 }

@@ -44,7 +44,7 @@ public class ImageInputPanel extends JPanel {
             //coś tam
             try {
                 URL imageUrl = new URL(urlField.getText());
-                new ImagesFrame(imageUrl, Integer.parseInt(thresholdField.getText()));
+                EventQueue.invokeLater(() ->  new ImagesFrame(imageUrl, Integer.parseInt(thresholdField.getText())));
 
             } catch (MalformedURLException e) {
                 JOptionPane.showMessageDialog(this, "Wprowadzony adres URL jest niepoprawny", "Błąd", JOptionPane.ERROR_MESSAGE);
@@ -96,8 +96,7 @@ public class ImageInputPanel extends JPanel {
         processImage.addActionListener(actionEvent -> {
             if (!uriField.getText().trim().isEmpty()) {
                 String path = uriField.getText();
-                new ImagesFrame(path, Integer.parseInt(thresholdField.getText()));
-            }
+                EventQueue.invokeLater(() ->  new ImagesFrame(path, Integer.parseInt(thresholdField.getText())));            }
         });
 
         JPanel inputPanel = new JPanel();

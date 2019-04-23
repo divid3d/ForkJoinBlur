@@ -12,12 +12,11 @@ public class ImageViewPanel extends JPanel {
 
     public ImageViewPanel(String path) {
         super();
-
         File imageFile = new File(path);
         try {
             image = ImageIO.read(imageFile);
         } catch (IOException e) {
-            System.err.println("Blad odczytu obrazka");
+            System.err.println("Blad odczytu obrazu");
             e.printStackTrace();
         }
 
