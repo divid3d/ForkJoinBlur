@@ -1,5 +1,6 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -15,8 +16,10 @@ public class ImagesFrame extends JFrame {
 
         if (source != null) {
             ProcessedImage processed = ForkBlur.blur(source, threshold);
+            BufferedImage resizedSource = resize(source, 400, 800);
+            BufferedImage resizedProcesed = resize(processed.getImage(), 400, 800);
             System.out.println(processed.getInfo());
-            add(new ResultPanel(source, processed.getImage()));
+            add(new ResultPanel(resizedSource, resizedProcesed));
         } else {
             JOptionPane.showMessageDialog(this, "Nie można pobrać obrazu", "Błąd", JOptionPane.ERROR_MESSAGE);
             this.dispose();
@@ -35,8 +38,10 @@ public class ImagesFrame extends JFrame {
 
         if (source != null) {
             ProcessedImage processed = ForkBlur.blur(source, threshold);
+            BufferedImage resizedSource = resize(source  , 400, 800);
+            BufferedImage resizedProcessed = resize(processed.getImage(), 400, 800);
             System.out.println(processed.getInfo());
-            add(new ResultPanel(source, processed.getImage()));
+            add(new ResultPanel(resizedSource, resizedProcessed));
         } else {
             JOptionPane.showMessageDialog(this, "Nie można wczytać obrazu", "Błąd", JOptionPane.ERROR_MESSAGE);
         }
@@ -64,6 +69,15 @@ public class ImagesFrame extends JFrame {
         }
 
         return null;
+    }
+
+    private BufferedImage resize(BufferedImage img, int height, int width) {
+        Image tmp = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        BufferedImage resized = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = resized.createGraphics();
+        g2d.drawImage(tmp, 0, 0, null);
+        g2d.dispose();
+        return resized;
     }
 
 }
