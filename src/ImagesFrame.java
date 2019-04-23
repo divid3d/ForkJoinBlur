@@ -15,11 +15,12 @@ public class ImagesFrame extends JFrame {
         BufferedImage source = getImageFromUrl(url);
 
         if (source != null) {
-            ProcessedImage processed = ForkBlur.blurParallel(source, threshold,blurWidth);
+            ProcessedImage processedForkJoin = ForkBlur.blur(source, threshold,blurWidth);
+            ProcessedImage procesedDirectly = ForkBlur.blurDirectly(source,blurWidth);
             BufferedImage resizedSource = resize(source, 400, 800);
-            BufferedImage resizedProcesed = resize(processed.getImage(), 400, 800);
-            System.out.println(processed.getInfo());
-            add(new ResultPanel(resizedSource, resizedProcesed, processed.getHeight(), processed.getWidth(), processed.getArraySize(), processed.getThreshold(), processed.getBlurWidth(), processed.getProcessingTime()));
+            BufferedImage resizedProcesed = resize(processedForkJoin.getImage(), 400, 800);
+            System.out.println(processedForkJoin.getInfo());
+            add(new ResultPanel(resizedSource, resizedProcesed, processedForkJoin.getHeight(), processedForkJoin.getWidth(), processedForkJoin.getArraySize(), processedForkJoin.getThreshold(), processedForkJoin.getBlurWidth(), processedForkJoin.getProcessingTime(),procesedDirectly.getProcessingTime()));
         } else {
             JOptionPane.showMessageDialog(this, "Nie można pobrać obrazu", "Błąd", JOptionPane.ERROR_MESSAGE);
             this.dispose();
@@ -37,11 +38,12 @@ public class ImagesFrame extends JFrame {
         BufferedImage source = getImageFromUri(path);
 
         if (source != null) {
-            ProcessedImage processed = ForkBlur.blurParallel(source, threshold,blurWidth);
+            ProcessedImage processedForkJoin = ForkBlur.blur(source, threshold,blurWidth);
+            ProcessedImage procesedDirectly = ForkBlur.blurDirectly(source,blurWidth);
             BufferedImage resizedSource = resize(source, 400, 800);
-            BufferedImage resizedProcessed = resize(processed.getImage(), 400, 800);
-            System.out.println(processed.getInfo());
-            add(new ResultPanel(resizedSource, resizedProcessed, processed.getHeight(), processed.getWidth(), processed.getArraySize(), processed.getThreshold(), processed.getBlurWidth(), processed.getProcessingTime()));
+            BufferedImage resizedProcessed = resize(processedForkJoin.getImage(), 400, 800);
+            System.out.println(processedForkJoin.getInfo());
+            add(new ResultPanel(resizedSource, resizedProcessed, processedForkJoin.getHeight(), processedForkJoin.getWidth(), processedForkJoin.getArraySize(), processedForkJoin.getThreshold(), processedForkJoin.getBlurWidth(), processedForkJoin.getProcessingTime(),procesedDirectly.getProcessingTime()));
         } else {
             JOptionPane.showMessageDialog(this, "Nie można wczytać obrazu", "Błąd", JOptionPane.ERROR_MESSAGE);
             this.dispose();

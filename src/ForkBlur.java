@@ -20,7 +20,7 @@ public class ForkBlur extends RecursiveAction {
         mBlurWidth = blurWidth;
     }
 
-    protected  void computeDirectly() {
+    protected void computeDirectly() {
         int sidePixels = (mBlurWidth - 1) / 2;
         for (int index = mStart; index < mStart + mLength; index++) {
             // Calculate average.
@@ -51,20 +51,20 @@ public class ForkBlur extends RecursiveAction {
 
         int split = mLength / 2;
 
-        invokeAll(new ForkBlur(mSource, mStart, split, mDestination, mThreshold,mBlurWidth),
+        invokeAll(new ForkBlur(mSource, mStart, split, mDestination, mThreshold, mBlurWidth),
                 new ForkBlur(mSource, mStart + split, mLength - split,
-                        mDestination, mThreshold,mBlurWidth));
+                        mDestination, mThreshold, mBlurWidth));
     }
 
 
-    public static ProcessedImage blurParallel(BufferedImage srcImage, int sThreshold, int sBlurWidth) {
+    public static ProcessedImage blur(BufferedImage srcImage, int sThreshold, int sBlurWidth) {
         int w = srcImage.getWidth();
         int h = srcImage.getHeight();
 
         int[] src = srcImage.getRGB(0, 0, w, h, null, 0, w);
         int[] dst = new int[src.length];
 
-        ForkBlur fb = new ForkBlur(src, 0, src.length, dst, sThreshold,sBlurWidth);
+        ForkBlur fb = new ForkBlur(src, 0, src.length, dst, sThreshold, sBlurWidth);
 
         ForkJoinPool pool = new ForkJoinPool();
 
@@ -77,10 +77,10 @@ public class ForkBlur extends RecursiveAction {
         BufferedImage dstImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
         dstImage.setRGB(0, 0, w, h, dst, 0, w);
 
-        return new ProcessedImage(dstImage, w, h, src.length, sThreshold,sBlurWidth, endTime - startTime);
+        return new ProcessedImage(dstImage, w, h, src.length, sThreshold, sBlurWidth, endTime - startTime);
     }
 
-    public static void blurSingle(BufferedImage srcImage,int blurWidth) {
-        blurParallel(srcImage, srcImage.getWidth() * srcImage.getHeight(),blurWidth);
+    public static ProcessedImage blurDirectly(BufferedImage srcImage, int blurWidth) {
+        return blur(srcImage, srcImage.getWidth() * srcImage.getHeight(), blurWidth);
     }
 }
