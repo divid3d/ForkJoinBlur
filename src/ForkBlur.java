@@ -40,7 +40,6 @@ public class ForkBlur extends RecursiveAction {
             mDestination[index] = dpixel;
         }
     }
-    //protected static int sThreshold = 100000;
 
     @Override
     protected void compute() {
@@ -81,6 +80,6 @@ public class ForkBlur extends RecursiveAction {
     }
 
     public static ProcessedImage blurDirectly(BufferedImage srcImage, int blurWidth) {
-        return blur(srcImage, srcImage.getWidth() * srcImage.getHeight(), blurWidth);
+        return blur(srcImage, srcImage.getWidth() * srcImage.getHeight()+1, blurWidth);
     }
 }
