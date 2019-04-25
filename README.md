@@ -10,7 +10,7 @@
 </kbd>
 
 <kbd>
-<img src="https://github.com/divid3d/ForkJoinBlur/blob/master/threshold.png?raw=true" width="100%" height="100%">
+<img src="https://github.com/divid3d/ForkJoinBlur/blob/master/thresh.png?raw=true" width="100%" height="100%">
 </kbd>
 
 </p>
