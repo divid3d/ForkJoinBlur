@@ -2,9 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class ResultPanel extends JPanel {
+class ResultPanel extends JPanel {
 
-    public ResultPanel(BufferedImage source, BufferedImage processed, int height, int width, int arraySize, int threshold, int blurWidth, long forkJoinProcessingTime, long directlyProcessingTime) {
+    ResultPanel(BufferedImage source, BufferedImage processed, int height, int width, int arraySize, int threshold, int blurWidth, long forkJoinProcessingTime, long directlyProcessingTime) {
 
         this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
@@ -50,6 +50,5 @@ public class ResultPanel extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = 7;
         this.add(new JLabel("Directly processing time: " + directlyProcessingTime + " ms"), gbc);
-
     }
 }

@@ -1,6 +1,6 @@
 import java.awt.image.BufferedImage;
 
-public class ProcessedImage {
+class ProcessedImage {
 
     private BufferedImage image;
     private int width;
@@ -10,7 +10,7 @@ public class ProcessedImage {
     private int threshold;
     private int blurWidth;
 
-    public ProcessedImage(BufferedImage image, int width, int height, int arraySize, int threshold, int blurWidth, long processingTime) {
+    ProcessedImage(BufferedImage image, int width, int height, int arraySize, int threshold, int blurWidth, long processingTime) {
         this.image = image;
         this.width = width;
         this.height = height;
@@ -20,35 +20,35 @@ public class ProcessedImage {
         this.processingTime = processingTime;
     }
 
-    public BufferedImage getImage() {
+    BufferedImage getImage() {
         return image;
     }
 
-    public int getWidth() {
+    int getWidth() {
         return width;
     }
 
-    public int getHeight() {
+    int getHeight() {
         return height;
     }
 
-    public int getArraySize() {
+    int getArraySize() {
         return arraySize;
     }
 
-    public long getProcessingTime() {
+    long getProcessingTime() {
         return processingTime;
     }
 
-    public int getThreshold() {
+    int getThreshold() {
         return threshold;
     }
 
-    public int getBlurWidth() {
+    int getBlurWidth() {
         return blurWidth;
     }
 
-    public String getInfo() {
+    String getInfo() {
         return "Width:\t" + this.width + " px" + "\n" + "Height:\t" + this.height + " px" + "\n" + "Array size:\t" + this.arraySize + "\n" + "Threshold:\t" + this.threshold + "\n" + "Processing time:\t" + this.processingTime + " ms";
     }
 }

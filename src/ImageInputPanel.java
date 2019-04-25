@@ -6,7 +6,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class ImageInputPanel extends JPanel {
+class ImageInputPanel extends JPanel {
 
     private JTextField urlField;
     private JTextField uriField;
@@ -21,11 +21,7 @@ public class ImageInputPanel extends JPanel {
     private static final String DEFAULT_BLUR_RADIUS = "13";
 
 
-    public String getUrl() {
-        return urlField.getText();
-    }
-
-    public ImageInputPanel() {
+    ImageInputPanel() {
         super();
         GridBagLayout gridBag = new GridBagLayout();
         GridBagConstraints constraints = new GridBagConstraints();
