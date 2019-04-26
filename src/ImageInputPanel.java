@@ -17,7 +17,7 @@ class ImageInputPanel extends JPanel {
     private JCheckBox enableUrl;
     private JCheckBox enableFile;
 
-    private static final String DEFAULT_THRESHOLD = "1000000";
+    private static final String DEFAULT_THRESHOLD = "10000";
     private static final String DEFAULT_BLUR_RADIUS = "13";
 
 
@@ -130,12 +130,12 @@ class ImageInputPanel extends JPanel {
 
                     String extension = Utils.getExtension(file);
                     if (extension != null) {
-                        return extension.equals(Utils.tiff) ||
-                                extension.equals(Utils.tif) ||
-                                extension.equals(Utils.gif) ||
-                                extension.equals(Utils.jpeg) ||
-                                extension.equals(Utils.jpg) ||
-                                extension.equals(Utils.png);
+                        return extension.equals(Utils.ImageExtensions.tiff.toString()) ||
+                                extension.equals(Utils.ImageExtensions.tif.toString()) ||
+                                extension.equals(Utils.ImageExtensions.gif.toString()) ||
+                                extension.equals(Utils.ImageExtensions.jpeg.toString()) ||
+                                extension.equals(Utils.ImageExtensions.jpg.toString()) ||
+                                extension.equals(Utils.ImageExtensions.png.toString());
                     }
 
                     return false;
@@ -220,15 +220,15 @@ class ImageInputPanel extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
         gbc.gridy = 5;
-        inputPanel.add(new JLabel("Array size fork threshold: "), gbc);
+        inputPanel.add(new JLabel("Fork threshold: "), gbc);
 
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 1;
         gbc.gridy = 5;
         inputPanel.add(thresholdField, gbc);
 
-        gbc.fill = GridBagConstraints.CENTER;
-        gbc.gridx = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 1;
         gbc.gridy = 6;
         inputPanel.add(processImageButton, gbc);
 

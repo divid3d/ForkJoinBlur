@@ -51,4 +51,5 @@ class ProcessedImage {
     String getInfo() {
         return "Width:\t" + this.width + " px" + "\n" + "Height:\t" + this.height + " px" + "\n" + "Array size:\t" + this.arraySize + "\n" + "Threshold:\t" + this.threshold + "\n" + "Processing time:\t" + this.processingTime + " ms";
     }
+
 }

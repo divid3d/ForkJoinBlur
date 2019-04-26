@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 
 class ResultPanel extends JPanel {
 
-    ResultPanel(BufferedImage source, BufferedImage processed, int height, int width, int arraySize, int threshold, int blurWidth, long forkJoinProcessingTime, long directlyProcessingTime) {
+    ResultPanel(BufferedImage source, ProcessedImage forkJoinProcessed, ProcessedImage directlyProcessed) {
 
         this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
@@ -16,39 +16,39 @@ class ResultPanel extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
         gbc.gridy = 0;
-        this.add(new ImageViewPanel(source), gbc);
+        this.add(new ImageViewPanel(Utils.resizeImage(source, new Dimension(900, 700))), gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 0;
-        this.add(new ImageViewPanel(processed), gbc);
+        this.add(new ImageViewPanel(Utils.resizeImage(forkJoinProcessed.getImage(), new Dimension(900, 700))), gbc);
 
         gbc.insets = new Insets(2, 10, 2, 2);
         gbc.gridx = 0;
         gbc.gridy = 1;
-        this.add(new JLabel("Width: " + height + " px"), gbc);
+        this.add(new JLabel("Width: " + forkJoinProcessed.getWidth() + " px"), gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 2;
-        this.add(new JLabel("Height: " + width + " px"), gbc);
+        this.add(new JLabel("Height: " + forkJoinProcessed.getHeight() + " px"), gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 3;
-        this.add(new JLabel("Array size: " + arraySize), gbc);
+        this.add(new JLabel("Array size: " + forkJoinProcessed.getArraySize()), gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 4;
-        this.add(new JLabel("Threshold: " + threshold), gbc);
+        this.add(new JLabel("Threshold: " + forkJoinProcessed.getThreshold()), gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 5;
-        this.add(new JLabel("Blur width: " + blurWidth + " px"), gbc);
+        this.add(new JLabel("Blur width: " + forkJoinProcessed.getBlurWidth() + " px"), gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 6;
-        this.add(new JLabel("ForkJoin processing time: " + forkJoinProcessingTime + " ms"), gbc);
+        this.add(new JLabel("ForkJoin processing time: " + forkJoinProcessed.getProcessingTime() + " ms"), gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 7;
-        this.add(new JLabel("Directly processing time: " + directlyProcessingTime + " ms"), gbc);
+        this.add(new JLabel("Directly processing time: " + directlyProcessed.getProcessingTime() + " ms"), gbc);
     }
 }

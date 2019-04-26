@@ -1,15 +1,12 @@
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 
 class Utils {
 
-    final static String jpeg = "jpeg";
-    final static String jpg = "jpg";
-    final static String gif = "gif";
-    final static String tiff = "tiff";
-    final static String tif = "tif";
-    final static String png = "png";
-
+    enum ImageExtensions {
+        jpeg,jpg,gif,tiff,tif,png
+    }
 
     static String getExtension(File f) {
         String ext = null;
@@ -22,7 +19,7 @@ class Utils {
         return ext;
     }
 
-    static Dimension getScaledDimension(Dimension imgSize, Dimension boundary) {
+    private static Dimension getScaledDimension(Dimension imgSize, Dimension boundary) {
 
         int original_width = imgSize.width;
         int original_height = imgSize.height;
@@ -42,5 +39,17 @@ class Utils {
         }
 
         return new Dimension(new_width, new_height);
+    }
+
+    static BufferedImage resizeImage(BufferedImage img, Dimension boundary) {
+
+        Dimension scaledDimension = getScaledDimension(new Dimension(img.getWidth(), img.getHeight()),boundary);
+
+        Image tmp = img.getScaledInstance((int)scaledDimension.getWidth(), (int)scaledDimension.getHeight(), Image.SCALE_SMOOTH);
+        BufferedImage resized = new BufferedImage((int)scaledDimension.getWidth(), (int)scaledDimension.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = resized.createGraphics();
+        g2d.drawImage(tmp, 0, 0, null);
+        g2d.dispose();
+        return resized;
     }
 }
